@@ -12213,10 +12213,22 @@ Testing set has 95 samples.
 <p>Some models that can be applied to this problem are</p>
 <ul>
 <li>Decision Trees<ul>
-<li>Real world application </li>
-<li>Strengths</li>
-<li>Weaknesses    </li>
-<li>Why here?</li>
+<li>Real world application - Astronomy has been an active domain for using automated classification techniques. gif Use of decision trees for filtering noise from Hubble Space Telescope images was reported recently in. Decision trees have helped in star-galaxy classification, determining galaxy counts [371] and discovering quasars in the Second Palomar Sky Survey.</li>
+<li>Strengths<ul>
+<li>Simple to understand and interpret. People are able to understand decision tree models after a brief explanation</li>
+<li>Can handle both numerical and categorical data</li>
+<li>Performs well with large datasets</li>
+</ul>
+</li>
+<li>Weaknesses<ul>
+<li>Don't tend to be as accurate as other methods.</li>
+<li>A small change in the training data can result in a big change in the tree, thus resulting significant change in the prediction        </li>
+</ul>
+</li>
+<li>Why here?<ul>
+<li>Other than the benefits stated above I prefer to use it here to baseline the results of the classification process. With the results of the Decision Tree as baseline we can now compare it with the results of other classifers to get a sense how much is the sophistication worth as when compared to the simplicity of Decision Trees.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Support Vector Machines<ul>
@@ -12589,6 +12601,11 @@ F1 score for test set: 0.7820.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
+<p>In this case I make the choice of the best model based on the time taken to train and the F1 score (test). Although the training times are by themselves quite insignificant, their variation acoss dataset sizes and classification techniques give us some idea of how they might perform at larger scales.</p>
+<p>Firstly we can eliminate the Decision Treee classifier on the basis of the F1 score. The F1 it offers seems to be comparable to the worst scores of SVM and GNB based classifiers.</p>
+<p>Between the SVM and GNB classifiers we can compare them on the basis of both F1 and the training times. The SVM based classifier follows a trend where the training time almost linearly increases with the size of the training data. We also notice a fall in the F1 score at 300 training points.
+However, the GNB based model behaves better with significantly lower training times and a streadily increasing F1 score as more data points are added to the training set.</p>
+<p>So overall, I am leaning towards ranking the GNB based approach as the best.</p>
 
 </div>
 </div>
@@ -12607,6 +12624,11 @@ F1 score for test set: 0.7820.
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
+<p>The model we have chosen to go with is Gaussian Naive Bayes. This approach is based on applying Bayes theorem. This approach assumes that the different features that are incorportated into the model influence the classification outcome "independent" of the other features. Although this assumption may not be practically correct this classifier is works really well in practice due to advantages like</p>
+<ul>
+<li>It alleviates problems stemming from the curse of dimensionality, such as the need for data sets that scale exponentially with the number of features</li>
+<li>While it fails to produce a good estimate for the correct class probabilities, it ensures that the correct class is more probable than any other class.</li>
+</ul>
 
 </div>
 </div>
@@ -12634,27 +12656,39 @@ F1 score for test set: 0.7820.
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong> Note : </strong> Since GNB does not have any parameters to tune I am attempting the tuning section with the LinearSVC classifier.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;GridSearchCV&#39; and &#39;make_scorer&#39;</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">make_scorer</span>
+
 
 <span class="c1"># TODO: Create the parameters list you wish to tune</span>
-<span class="n">parameters</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mf">0.86</span><span class="p">],</span> <span class="s1">&#39;max_iter&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">10000</span><span class="p">],</span><span class="s1">&#39;random_state&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">33</span><span class="p">],}</span>
 
 <span class="c1"># TODO: Initialize the classifier</span>
-<span class="n">clf</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">LinearSVC</span><span class="p">()</span>
 
 <span class="c1"># TODO: Make an f1 scoring function using &#39;make_scorer&#39; </span>
-<span class="n">f1_scorer</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">f1_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">f1_score</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
 
 <span class="c1"># TODO: Perform grid search on the classifier using the f1_scorer as the scoring method</span>
-<span class="n">grid_obj</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">param_grid</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span> <span class="o">=</span> <span class="n">f1_scorer</span><span class="p">)</span>
 
 <span class="c1"># TODO: Fit the grid search object to the training data and find the optimal parameters</span>
-<span class="n">grid_obj</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
 <span class="c1"># Get the estimator</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_estimator_</span>
@@ -12665,6 +12699,27 @@ F1 score for test set: 0.7820.
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Made predictions in 0.0003 seconds.
+Tuned model has a training F1 score of 0.8257.
+Made predictions in 0.0002 seconds.
+Tuned model has a testing F1 score of 0.8143.
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12682,7 +12737,9 @@ F1 score for test set: 0.7820.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
+<p><strong>Answer: </strong>
+The final model's (LinearSVC) F1 score is 0.8143. The untuned SVM model for 300 training data points gave a score of 0.7820. 
+Roughly, the parameters on tuning give about a 4% improvement in the F1 score value.</p>
 
 </div>
 </div>
@@ -12697,6 +12754,19 @@ F1 score for test set: 0.7820.
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
