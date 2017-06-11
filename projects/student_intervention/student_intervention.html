@@ -12232,17 +12232,39 @@ Testing set has 95 samples.
 </ul>
 </li>
 <li>Support Vector Machines<ul>
-<li>Real world application </li>
-<li>Strengths</li>
-<li>Weaknesses    </li>
-<li>Why here?</li>
+<li>Real world application  - The SVM algorithm has been widely applied in the biological and other sciences. They have been used to classify proteins with up to 90% of the compounds classified correctly.</li>
+<li>Strengths<ul>
+<li>Its a non probablistic classifier. Can be used to seperate both linearly and non-linearly seperable data (based on the kernel trick)</li>
+<li>Accuracy of the classification results can be tuned using a host of parameters.</li>
+</ul>
+</li>
+<li>Weaknesses    <ul>
+<li>Requires full labeling of input data</li>
+<li>Directly they can be applied mostly to two class/binary classification tasks.</li>
+<li>Computationally more resource intensive</li>
+</ul>
+</li>
+<li>Why here?<ul>
+<li>Clearly this is a good candidate to try as we have a binary classification problem at hand.</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>Naive Bayes<ul>
-<li>Real world application </li>
-<li>Strengths</li>
-<li>Weaknesses    </li>
-<li>Why here?</li>
+<li>Real world application - Classifying documents into different categories algorithmically is the best known application of Naive Bayes classifer.</li>
+<li>Strengths<ul>
+<li>It alleviates problems stemming from the curse of dimensionality, such as the need for data sets that scale exponentially with the number of features</li>
+<li>While it fails to produce a good estimate for the correct class probabilities, it ensures that the correct class is more probable than any other class.</li>
+</ul>
+</li>
+<li>Weaknesses<ul>
+<li>Does not work well when features are correlated. </li>
+</ul>
+</li>
+<li>Why here?<ul>
+<li>Since our training set is small, high bias/low variance classifier like Naive Bayes has an advantage over low bias/high variance classifiers, since the latter will overfit</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
